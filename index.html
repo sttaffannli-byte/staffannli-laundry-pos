@@ -1,13 +1,261 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0f766e" />
-    <title>LaundryPro POS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ate Anna's Laundry POS</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">AA</div>
+        <div>
+          <h1>Ate Anna's</h1>
+          <p>Laundry POS</p>
+        </div>
+      </div>
+
+      <nav id="menu">
+        <button class="nav-item active" data-page="dashboard">🏠 <span>Dashboard</span></button>
+        <button class="nav-item" data-page="tracker">📦 <span>Order Tracker</span></button>
+        <button class="nav-item" data-page="booking">🌐 <span>Online Booking</span></button>
+        <button class="nav-item" data-page="new-order">➕ <span>New Order</span></button>
+        <button class="nav-item" data-page="orders">🧾 <span>Orders</span></button>
+        <button class="nav-item" data-page="customers">👥 <span>Customers</span></button>
+        <button class="nav-item" data-page="services">🧺 <span>Services</span></button>
+        <button class="nav-item" data-page="payments">💳 <span>Payments</span></button>
+        <button class="nav-item" data-page="expenses">💸 <span>Expenses</span></button>
+        <button class="nav-item" data-page="staff">👩‍💼 <span>Staff Annli</span></button>
+        <button class="nav-item" data-page="attendance">📅 <span>Attendance</span></button>
+        <button class="nav-item" data-page="payroll">💰 <span>Payroll</span></button>
+        <button class="nav-item" data-page="settings">⚙️ <span>Settings</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-dot"></div>
+        <span>System Online</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuToggle" class="icon-btn">☰</button>
+        <div>
+          <h2 id="pageTitle">Dashboard</h2>
+          <p id="pageSubtitle">Welcome back, Admin</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="clock" id="clock"></div>
+          <div class="admin-chip">
+            <div class="avatar small">A</div>
+            <div><strong>Admin</strong><small>Administrator</small></div>
+          </div>
+        </div>
+      </header>
+
+      <section id="page-dashboard" class="page active">
+        <div class="hero">
+          <div>
+            <span class="eyebrow">LAUNDRY OPERATIONS</span>
+            <h3>Good day, Ate Anna!</h3>
+            <p>Manage orders, payments, staff, attendance, and daily operations from one dashboard.</p>
+          </div>
+          <button class="primary-btn" data-goto="new-order">＋ Create New Order</button>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon">🧾</div><div><small>Orders Today</small><strong id="ordersToday">0</strong></div></article>
+          <article class="stat-card"><div class="stat-icon">💵</div><div><small>Sales Today</small><strong id="salesToday">₱0.00</strong></div></article>
+          <article class="stat-card"><div class="stat-icon">🧺</div><div><small>Active Loads</small><strong>0</strong></div></article>
+          <article class="stat-card"><div class="stat-icon">👩‍💼</div><div><small>Active Staff</small><strong id="activeStaff">0</strong></div></article>
+        </div>
+
+        <div class="content-grid">
+          <article class="panel">
+            <div class="panel-head"><div><h4>Quick Actions</h4><p>Frequently used tools</p></div></div>
+            <div class="quick-grid">
+              <button data-goto="new-order">➕<span>New Order</span></button>
+              <button data-goto="customers">👥<span>Add Customer</span></button>
+              <button data-goto="staff">👩‍💼<span>Manage Staff</span></button>
+              <button data-goto="attendance">📅<span>Attendance</span></button>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head"><div><h4>Staff Overview</h4><p>Current team status</p></div><button class="link-btn" data-goto="staff">View All</button></div>
+            <div id="staffOverview" class="staff-overview"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="page-staff" class="page">
+        <div class="page-actions">
+          <div>
+            <h3>Staff Annli</h3>
+            <p>Add staff accounts, profile photos, roles, salary, and status.</p>
+          </div>
+          <button id="addStaffBtn" class="primary-btn">＋ Add Staff</button>
+        </div>
+
+        <div class="toolbar">
+          <input id="staffSearch" type="search" placeholder="Search staff name, ID, role..." />
+          <select id="roleFilter">
+            <option value="">All Roles</option>
+            <option>Administrator</option>
+            <option>Manager</option>
+            <option>Cashier</option>
+            <option>Laundry Staff</option>
+            <option>Delivery Rider</option>
+          </select>
+          <select id="statusFilter">
+            <option value="">All Status</option>
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+
+        <div class="panel table-panel">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Staff</th>
+                  <th>Employee ID</th>
+                  <th>Role</th>
+                  <th>Contact</th>
+                  <th>Salary</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="staffTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="page-attendance" class="page">
+        <div class="page-actions">
+          <div><h3>Attendance</h3><p>Time in and time out records.</p></div>
+          <button id="timeInBtn" class="primary-btn">⏱ Time In Staff</button>
+        </div>
+        <div class="panel table-panel">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Date</th><th>Staff</th><th>Time In</th><th>Time Out</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="attendanceBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="page-payroll" class="page">
+        <div class="page-actions">
+          <div><h3>Payroll</h3><p>Payroll-ready staff salary summary.</p></div>
+          <button class="primary-btn" onclick="window.print()">🖨 Print Payroll</button>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon">👥</div><div><small>Employees</small><strong id="payrollEmployees">0</strong></div></article>
+          <article class="stat-card"><div class="stat-icon">💰</div><div><small>Estimated Payroll</small><strong id="estimatedPayroll">₱0.00</strong></div></article>
+        </div>
+        <div class="panel table-panel">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Employee</th><th>Salary Type</th><th>Rate</th><th>Status</th></tr></thead>
+              <tbody id="payrollBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="page-new-order" class="page">
+        <div class="page-actions"><div><h3>New Order</h3><p>Create a laundry transaction.</p></div></div>
+        <form id="orderForm" class="panel form-grid">
+          <label>Customer Name<input required id="orderCustomer" /></label>
+          <label>Contact Number<input id="orderContact" /></label>
+          <label>Service<select id="orderService"><option>Wash, Dry & Fold</option><option>Wash Only</option><option>Dry Clean</option><option>Comforter</option></select></label>
+          <label>Weight (kg)<input type="number" min="0" step="0.1" id="orderWeight" required /></label>
+          <label>Amount<input type="number" min="0" step="0.01" id="orderAmount" required /></label>
+          <label>Payment<select id="orderPayment"><option>Cash</option><option>GCash</option><option>Maya</option><option>Bank Transfer</option></select></label>
+          <div class="form-actions"><button class="primary-btn" type="submit">Save Order</button></div>
+        </form>
+      </section>
+
+      <section id="page-orders" class="page">
+        <div class="page-actions"><div><h3>Orders</h3><p>Saved laundry transactions.</p></div></div>
+        <div class="panel table-panel"><div class="table-wrap"><table>
+          <thead><tr><th>Order No.</th><th>Date</th><th>Customer</th><th>Service</th><th>Weight</th><th>Amount</th><th>Payment</th></tr></thead>
+          <tbody id="ordersBody"></tbody>
+        </table></div></div>
+      </section>
+
+      <section id="page-settings" class="page">
+        <div class="page-actions"><div><h3>Settings</h3><p>Business and system preferences.</p></div></div>
+        <div class="panel settings-grid">
+          <label>Business Name<input id="businessName" value="Ate Anna's Laundry" /></label>
+          <label>Branch Name<input value="Main Branch" /></label>
+          <label>Contact Number<input placeholder="09XXXXXXXXX" /></label>
+          <label>Receipt Footer<input value="Thank you for choosing Ate Anna's Laundry!" /></label>
+          <button id="saveSettings" class="primary-btn">Save Settings</button>
+        </div>
+      </section>
+
+      <section id="page-placeholder" class="page">
+        <div class="empty-state"><div>🚧</div><h3 id="placeholderTitle">Module</h3><p>This module is ready for the next development phase.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="staffDialog">
+    <form id="staffForm" method="dialog">
+      <div class="modal-head">
+        <div><h3 id="staffModalTitle">Add Staff</h3><p>Create or update employee information.</p></div>
+        <button type="button" class="icon-btn" id="closeStaffDialog">✕</button>
+      </div>
+
+      <input type="hidden" id="staffEditId" />
+
+      <div class="photo-editor">
+        <div class="avatar large" id="photoPreview">👤</div>
+        <div>
+          <strong>Profile Photo</strong>
+          <p>JPG, PNG or WebP. Photo is compressed before saving.</p>
+          <div class="photo-actions">
+            <label class="secondary-btn">Upload / Change Photo<input hidden type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" /></label>
+            <button type="button" id="removePhoto" class="danger-outline">Remove Photo</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid two-col">
+        <label>Full Name<input id="staffName" required /></label>
+        <label>Contact Number<input id="staffContact" /></label>
+        <label>Role<select id="staffRole"><option>Administrator</option><option>Manager</option><option>Cashier</option><option>Laundry Staff</option><option>Delivery Rider</option></select></label>
+        <label>Status<select id="staffStatus"><option>Active</option><option>Inactive</option></select></label>
+        <label>Username<input id="staffUsername" required /></label>
+        <label>4–6 Digit PIN<input id="staffPin" inputmode="numeric" pattern="[0-9]{4,6}" maxlength="6" required /></label>
+        <label>Salary Type<select id="salaryType"><option>Daily</option><option>Monthly</option></select></label>
+        <label>Salary Rate<input id="salaryRate" type="number" min="0" step="0.01" required /></label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" id="cancelStaff">Cancel</button>
+        <button type="submit" class="primary-btn">Save Staff</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="timeInDialog">
+    <form id="timeInForm" method="dialog">
+      <div class="modal-head"><div><h3>Time In Staff</h3><p>Select an active employee.</p></div><button type="button" class="icon-btn" id="closeTimeIn">✕</button></div>
+      <label>Staff<select id="attendanceStaff"></select></label>
+      <div class="modal-actions"><button type="button" class="secondary-btn" id="cancelTimeIn">Cancel</button><button type="submit" class="primary-btn">Confirm Time In</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
 </html>
